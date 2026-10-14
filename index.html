@@ -32,7 +32,7 @@
         h1 span { color: #fff; }
         .subtitle { color: #94a3b8; font-size: 13px; margin-top: 5px; }
         
-        /* Botões do Menu idênticos à tua imagem original */
+        /* Botões do Menu Originais */
         .btn-menu { 
             display: flex; 
             align-items: center; 
@@ -58,11 +58,9 @@
         
         .status-footer { text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
 
-        /* Estilo de Inputs e Modais */
         .login-box input, .modal-content input, .modal-content select, .modal-content textarea { 
             width: 100%; background: #020617; color: #fff; border: 1px solid #334155; padding: 14px; border-radius: 10px; margin-bottom: 15px; outline: none; font-size: 14px; 
         }
-        .login-box input:focus, .modal-content input:focus { border-color: #38bdf8; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
         .modal-content { background: #0f172a; padding: 30px; border-radius: 16px; width: 100%; max-width: 550px; color: #fff; border: 1px solid rgba(56,189,248,0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
         .modal-content label { font-size: 13px; color: #94a3b8; font-weight: bold; display: block; margin-bottom: 5px; }
@@ -70,7 +68,7 @@
 </head>
 <body>
 
-    <!-- TELA DE LOGIN (Exatamente igual à tua foto) -->
+    <!-- TELA DE LOGIN ORIGINAL -->
     <div class="container" id="telaLogin">
         <div class="logo-area">
             <div class="logo-icon">🛡️</div>
@@ -78,14 +76,14 @@
             <div class="subtitle">MAIS SEGURANÇA PARA O SEU DIA A DIA</div>
         </div>
         <div class="login-box">
-            <input type="text" id="loginUsuario" placeholder="Usuário (ex: admin)">
-            <input type="password" id="loginSenha" placeholder="Senha (ex: 1234)">
+            <input type="text" id="loginUsuario" placeholder="Usuário (admin)">
+            <input type="password" id="loginSenha" placeholder="Senha (1234)">
             <button onclick="fazerLogin()" class="btn-menu btn-1" style="justify-content: center; font-size: 16px;">Entrar</button>
         </div>
         <div class="status-footer">ACESSO RESTRITO • SEGURANÇA E CONTROLE</div>
     </div>
 
-    <!-- PAINEL PRINCIPAL (Interface original com os botões perfeitos) -->
+    <!-- PAINEL PRINCIPAL AZUL ORIGINAL -->
     <div class="container" id="painelPrincipal" style="display: none;">
         <div class="logo-area" style="margin-bottom: 20px;">
             <div class="logo-icon" style="font-size: 35px;">🛡️</div>
@@ -101,7 +99,7 @@
             <span>›</span>
         </button>
 
-        <button onclick="abrirEstoque()" class="btn-menu btn-2">
+        <button onclick="abrirModal('modalEstoque')" class="btn-menu btn-2">
             <div style="text-align: left;">
                 <div style="font-size: 15px;">2 - Verificar Aparelhos em Estoque</div>
                 <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Confira os aparelhos cadastrados.</div>
@@ -162,12 +160,36 @@
         </div>
     </div>
 
+    <!-- MODAL ESTOQUE COMPLETO -->
+    <div id="modalEstoque" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <h2 style="color: #0d9488; margin-bottom: 15px;">Estoque Completo</h2>
+            <div id="tabelaEstoqueContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px;">
+                <p style="color: #94a3b8;">A carregar estoque...</p>
+            </div>
+            <button onclick="fecharModal('modalEstoque')" style="background: #475569; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Fechar</button>
+        </div>
+    </div>
+
+    <!-- MODAL VENDA / BAIXA -->
+    <div id="modalVenda" class="modal">
+        <div class="modal-content">
+            <h2 style="color: #d97706; margin-bottom: 15px;">Registrar Venda (Baixa Unitária)</h2>
+            <label>Digite o IMEI do Aparelho:</label>
+            <input type="text" id="vendaImei" placeholder="IMEI a remover">
+            <div style="display: flex; gap: 10px;">
+                <button onclick="registrarVenda()" style="background: #d97706; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer;">Dar Baixa</button>
+                <button onclick="fecharModal('modalVenda')" style="background: #475569; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL EXTREMELY FAST (PONTO 5) -->
     <div id="modalExtremelyFast" class="modal">
         <div class="modal-content">
             <h2 style="color: #ff4b2b; margin-bottom: 8px;">⚡ EXTREMELY FAST - Auditoria Relâmpago</h2>
             <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">Cole ou digite os IMEIs (um por linha ou separados por espaço):</p>
-            <textarea id="inputImeisFast" rows="6" placeholder="Ex: 123456789012345&#10;987654321098765"></textarea>
+            <textarea id="inputImeisFast" rows="6" placeholder="Ex: 123456789012345&#10;987654321098765" style="width: 100%; background: #020617; color: #fff; border: 1px solid #334155; padding: 12px; border-radius: 8px; font-family: monospace; resize: vertical; outline: none; margin-bottom: 15px;"></textarea>
             <div style="display: flex; gap: 10px;">
                 <button onclick="executarAuditoriaFast()" style="background: #22c55e; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1;">Verificar / OK</button>
                 <button onclick="fecharModalExtremelyFast()" style="background: #475569; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Fechar</button>
@@ -195,7 +217,10 @@
             document.getElementById('loginSenha').value = '';
         }
 
-        function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function abrirModal(id) { 
+            document.getElementById(id).style.display = 'flex'; 
+            if (id === 'modalEstoque') carregarEstoque();
+        }
         function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function abrirModalExtremelyFast() {
@@ -230,15 +255,53 @@
                     document.getElementById('cadModelo').value = '';
                     document.getElementById('cadImei').value = '';
                 } else {
-                    alert(data.error || 'Erro ao registar aparelho.');
+                    alert(data.error || 'Erro ao registar.');
                 }
             } catch (err) {
-                alert('Erro de conexão com o servidor.');
+                alert('Erro de conexão.');
             }
         }
 
-        function abrirEstoque() {
-            window.location.href = '/estoque.html'; // Redireciona para a página de estoque completa
+        async function carregarEstoque() {
+            try {
+                const res = await fetch('/api/aparelhos');
+                const aparelhos = await res.json();
+                const container = document.getElementById('tabelaEstoqueContainer');
+                if (aparelhos.length === 0) {
+                    container.innerHTML = '<p style="color: #94a3b8;">Nenhum aparelho em estoque.</p>';
+                    return;
+                }
+                let html = '<table style="width: 100%; border-collapse: collapse; font-size: 13px;">';
+                html += '<tr style="border-bottom: 1px solid #334155; text-align: left; color: #38bdf8;"><th style="padding: 8px;">Marca</th><th>Modelo</th><th>Memória</th><th>IMEI</th></tr>';
+                aparelhos.forEach(a => {
+                    html += `<tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">${a.marca}</td><td>${a.modelo}</td><td>${a.memoria}</td><td>${a.imei}</td></tr>`;
+                });
+                html += '</table>';
+                container.innerHTML = html;
+            } catch (err) {
+                document.getElementById('tabelaEstoqueContainer').innerHTML = '<p style="color: #ef4444;">Erro ao carregar estoque.</p>';
+            }
+        }
+
+        async function registrarVenda() {
+            const imei = document.getElementById('vendaImei').value.trim();
+            if (!imei) {
+                alert('Digite o IMEI para dar baixa.');
+                return;
+            }
+            try {
+                const res = await fetch(`/api/aparelhos/${imei}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Baixa efetuada com sucesso!');
+                    fecharModal('modalVenda');
+                    document.getElementById('vendaImei').value = '';
+                } else {
+                    alert(data.error || 'IMEI não encontrado.');
+                }
+            } catch (err) {
+                alert('Erro de conexão.');
+            }
         }
 
         async function executarAuditoriaFast() {

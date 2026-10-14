@@ -1,226 +1,185 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VERY+ SECURITY - Controle de Estoque</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 900px; background: #161b22; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border: 1px solid #30363d; }
-        h1 { color: #58a6ff; text-align: center; margin-bottom: 20px; font-size: 24px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #8b949e; }
-        input, select { width: 100%; padding: 10px; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9; border-radius: 6px; font-size: 14px; }
-        input:focus, select:focus { border-color: #58a6ff; outline: none; }
-        select option { background-color: #161b22; color: #c9d1d9; padding: 10px; }
-        button { cursor: pointer; border: none; border-radius: 6px; font-weight: bold; padding: 10px 15px; transition: 0.2s; }
-        .btn-primary { background: #238636; color: white; width: 100%; font-size: 16px; margin-top: 10px; }
-        .btn-primary:hover { background: #2ea043; }
-        .btn-fast { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4); }
-        .btn-fast:hover { opacity: 0.9; }
-        .hidden { display: none !important; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #30363d; font-size: 14px; }
-        th { background: #21262d; color: #58a6ff; }
-        .actions-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        body { 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); 
+            color: #f8fafc; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+        }
+        .container { 
+            background: rgba(15, 23, 42, 0.9); 
+            border: 1px solid rgba(56, 189, 248, 0.3); 
+            border-radius: 20px; 
+            padding: 35px; 
+            width: 100%; 
+            max-width: 520px; 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.1); 
+            backdrop-filter: blur(12px); 
+        }
+        .logo-area { text-align: center; margin-bottom: 25px; }
+        .logo-icon { font-size: 40px; margin-bottom: 10px; }
+        h1 { color: #38bdf8; font-size: 26px; font-weight: bold; letter-spacing: 0.5px; }
+        h1 span { color: #fff; }
+        .subtitle { color: #94a3b8; font-size: 13px; margin-top: 5px; }
+        
+        /* Estilo dos Botões do Menu */
+        .btn-menu { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            padding: 18px 22px; 
+            margin-bottom: 14px; 
+            border-radius: 12px; 
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+            color: white; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+        }
+        .btn-menu:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3); }
+        
+        .btn-1 { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .btn-2 { background: linear-gradient(135deg, #0d9488, #0f766e); }
+        .btn-4 { background: linear-gradient(135deg, #d97706, #b45309); }
+        .btn-fast { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        .btn-logout { background: linear-gradient(135deg, #dc2626, #991b1b); }
+        
+        .status-footer { text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+
+        /* Estilo para Tela de Login e Modais */
+        .login-box input { width: 100%; background: #020617; color: #fff; border: 1px solid #334155; padding: 14px; border-radius: 10px; margin-bottom: 15px; outline: none; font-size: 14px; }
+        .login-box input:focus { border-color: #38bdf8; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal-content { background: #0f172a; padding: 30px; border-radius: 16px; width: 100%; max-width: 600px; color: #fff; border: 1px solid rgba(56,189,248,0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- TELA DE LOGIN -->
-        <div id="loginScreen">
-            <h1>VERY+ SECURITY - Login</h1>
-            <div class="form-group">
-                <label>Utilizador</label>
-                <input type="text" id="username" placeholder="Digite o utilizador">
-            </div>
-            <div class="form-group">
-                <label>Senha</label>
-                <input type="password" id="password" placeholder="Digite a senha">
-            </div>
-            <button onclick="fazerLogin()" class="btn-primary">Entrar</button>
+    <!-- TELA DE LOGIN (Se não estiver autenticado) -->
+    <div class="container" id="telaLogin">
+        <div class="logo-area">
+            <div class="logo-icon">🛡️</div>
+            <h1>VERY+ <span>SECURITY</span></h1>
+            <div class="subtitle">MAIS SEGURANÇA PARA O SEU DIA A DIA</div>
         </div>
-
-        <!-- TELA PRINCIPAL DO SISTEMA -->
-        <div id="appScreen" class="hidden">
-            <h1>VERY+ SECURITY - Controle de Estoque</h1>
-            
-            <div class="actions-bar">
-                <button onclick="abrirModalCadastro()" class="btn-primary" style="width: auto;">Cadastrar Aparelho</button>
-                <button onclick="abrirModalExtremelyFast()" class="btn-fast" style="width: auto;">⚡ EXTREMELY FAST</button>
-                <button onclick="fazerLogout()" style="background: #da3633; color: white; width: auto;">Sair</button>
-            </div>
-
-            <div style="margin-top: 15px;">
-                <h3 style="color: #8b949e; margin-bottom: 10px;">Estoque Atual</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Memória</th>
-                            <th>IMEI</th>
-                            <th>Ação</th>
-                        </tr>
-                    <thead id="tabelaEstoque">
-                        <!-- Preenchido via JavaScript -->
-                    </thead>
-                </table>
-            </div>
+        <div class="login-box">
+            <input type="text" id="loginUsuario" placeholder="Usuário (ex: admin)">
+            <input type="password" id="loginSenha" placeholder="Senha (ex: 1234)">
+            <button onclick="fazerLogin()" class="btn-menu btn-1" style="justify-content: center; font-size: 16px;">Entrar</button>
         </div>
+        <div class="status-footer">ACESSO RESTRITO • SEGURANÇA E CONTROLE</div>
     </div>
 
-    <!-- MODAL DE CADASTRO -->
-    <div id="modalCadastro" class="hidden" style="position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 999;">
-        <div style="background: #161b22; padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; border: 1px solid #30363d;">
-            <h2 style="color: #58a6ff; margin-bottom: 15px;">Cadastrar Aparelho</h2>
-            <div class="form-group">
-                <label>Marca</label>
-                <input type="text" id="cadMarca" placeholder="Ex: Samsung">
-            </div>
-            <div class="form-group">
-                <label>Modelo</label>
-                <input type="text" id="cadModelo" placeholder="Ex: Galaxy S23">
-            </div>
-            <div class="form-group">
-                <label>Memória / Armazenamento</label>
-                <select id="cadMemoria">
-                    <option value="64GB">64GB</option>
-                    <option value="128GB" selected>128GB</option>
-                    <option value="256GB">256GB</option>
-                    <option value="512GB">512GB</option>
-                    <option value="1TB">1TB</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>IMEI</label>
-                <input type="text" id="cadImei" placeholder="Digite o IMEI único">
-            </div>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button onclick="salvarAparelho()" class="btn-primary" style="margin-top:0;">Registar</button>
-                <button onclick="fecharModalCadastro()" style="background: #30363d; color: white;">Cancelar</button>
-            </div>
+    <!-- PAINEL PRINCIPAL (Aparece após o Login) -->
+    <div class="container" id="painelPrincipal" style="display: none;">
+        <div class="logo-area" style="margin-bottom: 20px;">
+            <div class="logo-icon" style="font-size: 32px;">🛡️</div>
+            <h1 style="font-size: 22px;">VERY+ <span>SECURITY</span></h1>
+            <div class="subtitle">Controle de Estoque Inteligente</div>
         </div>
+
+        <button onclick="alert('Funcionalidade de Cadastro por Modal')" class="btn-menu btn-1">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">1 - Cadastrar Aparelho</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Registre um novo aparelho no sistema.</div>
+            </div>
+            <span>›</span>
+        </button>
+
+        <button onclick="alert('Estoque Completo')" class="btn-menu btn-2">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">2 - Verificar Aparelhos em Estoque</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Confira os aparelhos cadastrados.</div>
+            </div>
+            <span>›</span>
+        </button>
+
+        <button onclick="alert('Baixa Unitária')" class="btn-menu btn-4">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">4 - Registrar Venda (Baixa)</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Registre a venda e atualize o estoque.</div>
+            </div>
+            <span>›</span>
+        </button>
+
+        <!-- PONTO 5: EXTREMELY FAST -->
+        <button onclick="abrirModalExtremelyFast()" class="btn-menu btn-fast">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">5 - ⚡ EXTREMELY FAST (Auditoria)</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Conferência relâmpago por múltiplos IMEIs.</div>
+            </div>
+            <span>›</span>
+        </button>
+
+        <button onclick="fazerLogout()" class="btn-menu btn-logout">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">Sair / Deslogar</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Encerrar sua sessão com segurança.</div>
+            </div>
+            <span>›</span>
+        </button>
+
+        <div class="status-footer">⏳ Aguardando ação...</div>
     </div>
 
-    <!-- MODAL EXTREMELY FAST -->
-    <div id="modalExtremelyFast" class="hidden" style="position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000;">
-        <div style="background: #1a1a1a; padding: 25px; border-radius: 12px; width: 90%; max-width: 650px; color: #fff; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <h2 style="color: #ff4b2b; margin-bottom: 8px;">⚡ EXTREMELY FAST - Auditoria Relâmpago</h2>
-            <p style="font-size: 13px; color: #aaa; margin-bottom: 15px;">Cole ou digite os IMEIs (um por linha ou separados por vírgula/espaço):</p>
+    <!-- MODAL EXTREMELY FAST (PONTO 5) -->
+    <div id="modalExtremelyFast" class="modal">
+        <div class="modal-content">
+            <h2 style="color: #ff4b2b; margin-bottom: 8px; font-size: 20px;">⚡ EXTREMELY FAST - Auditoria Relâmpago</h2>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">Cole ou digite os IMEIs dos aparelhos (um por linha ou separados por espaço/vírgula):</p>
             
-            <textarea id="inputImeisFast" rows="6" placeholder="Ex: 123456789012345&#10;987654321098765" style="width: 100%; background: #111; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 6px; font-family: monospace; resize: vertical; outline: none;"></textarea>
+            <textarea id="inputImeisFast" rows="6" placeholder="Ex: 123456789012345&#10;987654321098765" style="width: 100%; background: #020617; color: #fff; border: 1px solid #334155; padding: 12px; border-radius: 8px; font-family: monospace; resize: vertical; outline: none; margin-bottom: 15px;"></textarea>
             
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button onclick="executarAuditoriaFast()" style="background: linear-gradient(135deg, #28a745, #218838); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 4px 10px rgba(40,167,69,0.3);">Verificar / OK</button>
-                <button onclick="fecharModalExtremelyFast()" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Fechar</button>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="executarAuditoriaFast()" style="background: #22c55e; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1;">Verificar / OK</button>
+                <button onclick="fecharModalExtremelyFast()" style="background: #475569; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Fechar</button>
             </div>
 
-            <!-- Área de Resultados Coloridos -->
-            <div id="resultadoExtremelyFast" style="margin-top: 20px; max-height: 280px; overflow-y: auto; display: none; border-top: 1px solid #333; padding-top: 15px;"></div>
+            <!-- Resultados Coloridos -->
+            <div id="resultadoExtremelyFast" style="margin-top: 20px; max-height: 250px; overflow-y: auto; display: none; border-top: 1px solid #334155; padding-top: 15px;"></div>
         </div>
     </div>
 
     <script>
-        async function fazerLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await res.json();
-
-            if (data.success) {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('appScreen').classList.remove('hidden');
-                carregarEstoque();
+        // Lógica de Login Simples e Funcional
+        function fazerLogin() {
+            const u = document.getElementById('loginUsuario').value.trim();
+            const s = document.getElementById('loginSenha').value.trim();
+            if (u === 'admin' && s === '1234') {
+                document.getElementById('telaLogin').style.display = 'none';
+                document.getElementById('painelPrincipal').style.display = 'block';
             } else {
-                alert(data.message);
+                alert('Usuário ou senha incorretos! Use admin / 1234');
             }
         }
 
         function fazerLogout() {
-            document.getElementById('appScreen').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
-        }
-
-        async function carregarEstoque() {
-            const res = await fetch('/api/aparelhos');
-            const aparelhos = await res.json();
-            const tbody = document.getElementById('tabelaEstoque');
-            tbody.innerHTML = '';
-
-            aparelhos.forEach(ap => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${ap.marca}</td>
-                        <td>${ap.modelo}</td>
-                        <td>${ap.memoria}</td>
-                        <td>${ap.imei}</td>
-                        <td><button onclick="realizarBaixa('${ap.imei}')" style="background: #da3633; color: white; padding: 5px 10px; font-size: 12px;">Baixa</button></td>
-                    </tr>
-                `;
-            });
-        }
-
-        function abrirModalCadastro() {
-            document.getElementById('cadMarca').value = '';
-            document.getElementById('cadModelo').value = '';
-            document.getElementById('cadImei').value = '';
-            document.getElementById('modalCadastro').classList.remove('hidden');
-        }
-
-        function fecharModalCadastro() {
-            document.getElementById('modalCadastro').classList.add('hidden');
-        }
-
-        async function salvarAparelho() {
-            const marca = document.getElementById('cadMarca').value;
-            const modelo = document.getElementById('cadModelo').value;
-            const memoria = document.getElementById('cadMemoria').value;
-            const imei = document.getElementById('cadImei').value;
-
-            const res = await fetch('/api/aparelhos', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ marca, modelo, memoria, imei })
-            });
-            const data = await res.json();
-
-            if (data.success) {
-                fecharModalCadastro();
-                carregarEstoque();
-            } else {
-                alert(data.error);
-            }
-        }
-
-        async function realizarBaixa(imei) {
-            if (!confirm(`Deseja efetuar a baixa do IMEI: ${imei}?`)) return;
-
-            const res = await fetch(`/api/aparelhos/imei/${imei}`, { method: 'DELETE' });
-            const data = await res.json();
-
-            if (data.success) {
-                carregarEstoque();
-            } else {
-                alert(data.error);
-            }
+            document.getElementById('painelPrincipal').style.display = 'none';
+            document.getElementById('telaLogin').style.display = 'block';
+            document.getElementById('loginUsuario').value = '';
+            document.getElementById('loginSenha').value = '';
         }
 
         function abrirModalExtremelyFast() {
             document.getElementById('inputImeisFast').value = '';
             document.getElementById('resultadoExtremelyFast').style.display = 'none';
-            document.getElementById('modalExtremelyFast').classList.remove('hidden');
+            document.getElementById('modalExtremelyFast').style.display = 'flex';
         }
 
         function fecharModalExtremelyFast() {
-            document.getElementById('modalExtremelyFast').classList.add('hidden');
+            document.getElementById('modalExtremelyFast').style.display = 'none';
         }
 
         async function executarAuditoriaFast() {
@@ -243,24 +202,35 @@
                 const resDiv = document.getElementById('resultadoExtremelyFast');
                 resDiv.style.display = 'block';
                 resDiv.innerHTML = `
-                    <div style="background: #111; padding: 15px; border-radius: 8px; border: 1px solid #222;">
-                        <h3 style="margin-bottom: 12px; color: #fff; font-size: 16px;">📊 Relatório da Auditoria:</h3>
+                    <div style="background: #020617; padding: 12px; border-radius: 8px; border: 1px solid #334155;">
+                        <h3 style="margin-bottom: 10px; color: #38bdf8; font-size: 15px;">📊 Relatório da Auditoria:</h3>
                         
-                        <div style="margin-bottom: 12px; background: rgba(40, 167, 69, 0.1); padding: 10px; border-left: 4px solid #28a745; border-radius: 4px;">
-                            <strong style="color: #28a745;">🟢 OK / Conferidos (${data.ok.length}):</strong>
-                            <ul style="margin: 5px 0 0 20px; font-size: 12px; color: #ddd;">
-                                ${data.ok.length > 0 ? data.ok.map(i => `<li>${i.marca} ${i.modelo} (${i.memoria}) - IMEI: ${i.imei}</li>`).join('') : '<li>Nenhum</li>'}
+                        <div style="margin-bottom: 10px; background: rgba(34, 197, 94, 0.1); padding: 8px; border-left: 4px solid #22c55e; border-radius: 4px;">
+                            <strong style="color: #22c55e;">🟢 OK / Conferidos (${data.ok.length}):</strong>
+                            <ul style="margin: 4px 0 0 18px; font-size: 11px; color: #cbd5e1;">
+                                ${data.ok.length > 0 ? data.ok.map(i => `<li>${i.marca}${i.modelo} (${i.memoria}) - IMEI:${i.imei}</li>`).join('') : '<li>Nenhum</li>'}
                             </ul>
                         </div>
 
-                        <div style="margin-bottom: 12px; background: rgba(220, 53, 69, 0.1); padding: 10px; border-left: 4px solid #dc3545; border-radius: 4px;">
-                            <strong style="color: #dc3545;">🔴 Faltantes no Estoque Físico (${data.faltantes.length}):</strong>
-                            <ul style="margin: 5px 0 0 20px; font-size: 12px; color: #ddd;">
-                                ${data.faltantes.length > 0 ? data.faltantes.map(i => `<li>${i.marca} ${i.modelo} (${i.memoria}) - IMEI: ${i.imei}</li>`).join('') : '<li>Nenhum! Estoque físico 100% conferido.</li>'}
+                        <div style="margin-bottom: 10px; background: rgba(239, 68, 68, 0.1); padding: 8px; border-left: 4px solid #ef4444; border-radius: 4px;">
+                            <strong style="color: #ef4444;">🔴 Faltantes no Estoque Físico (${data.faltantes.length}):</strong>
+                            <ul style="margin: 4px 0 0 18px; font-size: 11px; color: #cbd5e1;">
+                                ${data.faltantes.length > 0 ? data.faltantes.map(i => `<li>${i.marca}${i.modelo} (${i.memoria}) - IMEI:${i.imei}</li>`).join('') : '<li>Nenhum! Estoque 100% conferido.</li>'}
                             </ul>
                         </div>
 
-                        <div style="background: rgba(255, 193, 7, 0.1); padding: 10px; border-left: 4px solid #ffc107; border-radius: 4px;">
-                            <strong style="color: #ffc107;">🟡 IMEIs Inválidos / Erro de Digitação (${data.invalidos.length}):</strong>
-                            <ul style="margin: 5px 0 0 20px; font-size: 12px; color: #ddd;">
-                                ${data
+                        <div style="background: rgba(234, 179, 8, 0.1); padding: 8px; border-left: 4px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">🟡 IMEIs Inválidos / Erro de Digitação (${data.invalidos.length}):</strong>
+                            <ul style="margin: 4px 0 0 18px; font-size: 11px; color: #cbd5e1;">
+                                ${data.invalidos.length > 0 ? data.invalidos.map(i => `<li>${i}</li>`).join('') : '<li>Nenhum erro de digitação</li>'}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                alert('Erro ao conectar com o servidor para auditoria.');
+            }
+        }
+    </script>
+</body>
+</html>

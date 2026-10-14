@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERY+ SECURITY - Controle de Estoque</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #020617; background-image: radial-gradient(circle at 50% 0%, rgba(14, 116, 255, 0.15) 0%, transparent 50%), linear-gradient(135deg, #020617 0%, #050b14 100%); color: #f8fafc; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .brand-header { text-align: center; margin-bottom: 25px; }
+        .shield-logo { width: 65px; height: 75px; background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%); display: flex; justify-content: center; align-items: center; margin: 0 auto 12px auto; box-shadow: 0 0 25px rgba(59, 130, 246, 0.5); }
+        .shield-logo svg { width: 32px; height: 32px; fill: white; }
+        .brand-title { font-size: 26px; font-weight: 800; letter-spacing: 1px; color: #ffffff; }
+        .brand-title span { color: #3b82f6; }
+        .brand-subtitle { font-size: 11px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+        .card { background: rgba(8, 15, 30, 0.85); border: 1px solid rgba(59, 130, 246, 0.35); padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); width: 100%; max-width: 520px; backdrop-filter: blur(12px); }
+        .input-group { position: relative; margin-bottom: 16px; }
+        .input-group svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: #60a5fa; }
+        .input-group input { width: 100%; padding: 14px 16px 14px 50px; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; font-size: 14px; color: #ffffff; outline: none; }
+        .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+        .menu-btn { width: 100%; padding: 14px 16px; margin-bottom: 12px; background: linear-gradient(135deg, rgba(30, 58, 138, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(59, 130, 246, 0.35); border-radius: 12px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+        .menu-btn-content { display: flex; align-items: center; gap: 14px; }
+        .menu-icon-box { width: 40px; height: 40px; background: rgba(59, 130, 246, 0.15); border-radius: 8px; display: flex; justify-content: center; align-items: center; }
+        .menu-icon-box svg { width: 20px; height: 20px; fill: #60a5fa; }
+        .menu-text h4 { font-size: 14px; font-weight: 700; color: #ffffff; }
+        .menu-text p { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+        .menu-arrow { color: #60a5fa; font-weight: bold; font-size: 16px; }
+        .btn-danger-custom { background: linear-gradient(135deg, rgba(153, 27, 27, 0.7) 0%, rgba(69, 10, 10, 0.9) 100%) !important; border-color: rgba(239, 68, 68, 0.4) !important; }
+        .btn-danger-custom .menu-icon-box { background: rgba(239, 68, 68, 0.15); }
+        .btn-danger-custom .menu-icon-box svg, .btn-danger-custom .menu-arrow { fill: #f87171; color: #f87171; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 100; }
+        .modal-box { background: rgba(11, 20, 38, 0.95); border: 1px solid rgba(59, 130, 246, 0.5); padding: 25px; border-radius: 20px; width: 90%; max-width: 450px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .modal-title h3 { font-size: 18px; color: white; font-weight: 700; }
+        .modal-title p { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+        .close-modal { background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
+        .form-group-custom { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; }
+        .form-label { font-size: 11px; color: #60a5fa; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .form-input-sub { width: 100%; background: rgba(15, 23, 42, 0.9) !important; border: none !important; color: white !important; font-size: 14px; outline: none; }
+        select.form-input-sub option { background-color: #0f172a; color: #ffffff; padding: 10px; }
+        .modal-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .btn-cancel { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(100, 116, 139, 0.4); color: #cbd5e1; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .btn-confirm { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none; color: white; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .table-container { margin-top: 15px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; overflow-x: auto; max-height: 220px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; font-size: 12px; }
+        th { color: #64748b; font-weight: 600; background: rgba(15, 23, 42, 0.9); position: sticky; top: 0; border-bottom: 1px solid rgba(51, 65, 85, 0.5); }
+        td { color: #e2e8f0; border-bottom: 1px solid rgba(51, 65, 85, 0.2); }
+        .badge-status { background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="brand-header">
+        <div class="shield-logo">
+            <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.1 14.8,9.5V11C15.4,11 16,11.6 16,12.2V16.8C16,17.4 15.4,18 14.8,18H9.2C8.6,18 8,17.4 8,16.8V12.2C8,11.6 8.6,11 9.2,11V9.5C9.2,8.1 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.8 10.5,9.5V11H13.5V9.5C13.5,8.8 12.8,8.2 12,8.2Z"/></svg>
+        </div>
+        <div class="brand-title">VERY+ <span>SECURITY</span></div>
+        <div class="brand-subtitle">Mais segurança para o seu dia a dia</div>
+    </div>
+
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen" class="card">
+        <div class="input-group">
+            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
+            <input type="text" id="usuario" placeholder="Usuário (admin)">
+        </div>
+        <div class="input-group">
+            <svg viewBox="0 0 24 24"><path d="M18,8H17V6A5,5 0 0,0 12,1A5,5 0 0,0 7,6V8H6A2,2 0 0,0 4,10V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V10A2,2 0 0,0 18,8M12,3A3,3 0 0,1 15,6V8H9V6A3,3 0 0,1 12,3M16,16H13V19H11V16H8V14H11V11H13V14H16V16Z"/></svg>
+            <input type="password" id="senha" placeholder="Senha (1234)">
+        </div>
+        <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
+    </div>
+
+    <!-- MENU PRINCIPAL -->
+    <div id="menuScreen" class="card hidden" style="max-width: 580px;">
+        <h2 style="font-size: 20px; margin-bottom: 4px; color: #ffffff;">Controle de Estoque</h2>
+        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Adicione novos aparelhos e atualize quantidades por modelo.</p>
+        
+        <button class="menu-btn" onclick="abrirModalCadastrar()">
+            <div class="menu-btn-content">
+                <div class="menu-icon-box"><svg viewBox="0 0 24 24"><path d="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21C5,22.1 5.9,23 7,23H17C18.1,23 19,22.1 19,21V3C19,1.89 18.1,1 17,1Z"/></svg></div>
+                <div class="menu-text">
+                    <h4>1 - Cadastrar / Adicionar Aparelho</h4>
+                    <p>Adiciona +1 unidade se o modelo já existir.</p>
+                </div>
+            </div>
+            <span class="menu-arrow">›</span>
+        </button>
+
+        <button class="menu-btn" onclick="verificarEstoque()">
+            <div class="menu-btn-content">
+                <div class="menu-icon-box"><svg viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/></svg></div>
+                <div class="menu-text">
+                    <h4>2 - Verificar Estoque Completo</h4>
+                    <p>Veja todos os aparelhos e quantidades atuais.</p>
+                </div>
+            </div>
+            <span class="menu-arrow">›</span>
+        </button>
+
+        <button class="menu-btn" onclick="abrirModalVender()">
+            <div class="menu-btn-content">
+                <div class="menu-icon-box"><svg viewBox="0 0 24 24"><path d="M14,2H6C4.89,2 4,2.89 4,4V20C4,21.11 4.89,22 6,22H18C19.11,22 20,21.11 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg></div>
+                <div class="menu-text">
+                    <h4>4 - Registrar Venda (Baixa Unitária)</h4>
+                    <p>Dá baixa de 1 em 1 unidade até zerar o estoque.</p>
+                </div>
+            </div>
+            <span class="menu-arrow">›</span>
+        </button>
+
+        <button class="menu-btn btn-danger-custom" onclick="location.reload()">
+            <div class="menu-btn-content">
+                <div class="menu-icon-box"><svg viewBox="0 0 24 24"><path d="M16,17.25V14H9V10H16V6.75L22.25,12L16,17.25M6.25,4H12V2H6.25A2.25,2.25 0 0,0 4,4.25V19.75A2.25,2.25 0 0,0 6.25,22H12V20H6.25V4Z"/></svg></div>
+                <div class="menu-text">
+                    <h4>Sair / Deslogar</h4>
+                    <p>Encerrar sua sessão com segurança.</p>
+                </div>
+            </div>
+            <span class="menu-arrow">›</span>
+        </button>
+
+        <!-- TABELA DE RESULTADOS -->
+        <div id="resultadoArea" class="hidden" style="margin-top: 15px;">
+            <p style="font-size: 13px; color: #60a5fa; font-weight: 600; margin-bottom: 8px;">Aparelhos Cadastrados</p>
+            <div class="table-container" id="tabelaEstoque"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CADASTRAR -->
+    <div id="modalCadastrar" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h3>Cadastrar Aparelho</h3>
+                    <p>Se o modelo já existir, soma +1 unidade automaticamente.</p>
+                </div>
+                <button class="close-modal" onclick="fecharModais()">×</button>
+            </div>
+            
+            <div class="form-group-custom">
+                <span class="form-label">Marca</span>
+                <input type="text" id="cadMarca" class="form-input-sub" placeholder="Ex: Samsung">
+            </div>
+            <div class="form-group-custom">
+                <span class="form-label">Modelo</span>
+                <input type="text" id="cadModelo" class="form-input-sub" placeholder="Ex: Galaxy S23">
+            </div>
+            <div class="form-group-custom">
+                <span class="form-label">Memória / Armazenamento</span>
+                <select id="cadMemoria" class="form-input-sub" style="cursor: pointer;">
+                    <option value="" disabled selected>Selecione a memória</option>
+                    <option value="64GB">64GB</option>
+                    <option value="128GB">128GB</option>
+                    <option value="256GB">256GB</option>
+                    <option value="512GB">512GB</option>
+                    <option value="1TB">1TB</option>
+                </select>
+            </div>
+            <div class="form-group-custom">
+                <span class="form-label">IMEI</span>
+                <input type="text" id="cadImei" class="form-input-sub" placeholder="Ex: 000000000000000">
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="fecharModais()">Cancelar</button>
+                <button class="btn-confirm" onclick="salvarAparelho()">Registrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE VENDA / BAIXA -->
+    <div id="modalVender" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h3>Registrar Venda (Baixa Unitária)</h3>
+                    <p>Informe o IMEI para dar baixa de 1 unidade.</p>
+                </div>
+                <button class="close-modal" onclick="fecharModais()">×</button>
+            </div>
+            
+            <div class="form-group-custom">
+                <span class="form-label">IMEI do Aparelho</span>
+                <input type="text" id="vendaImei" class="form-input-sub" placeholder="Ex: 000000000000000">
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="fecharModais()">Cancelar</button>
+                <button class="btn-confirm" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);" onclick="confirmarVenda()">Dar Baixa (-1)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fazerLogin() {
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, senha })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('menuScreen').classList.remove('hidden');
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Erro de conexão com o servidor.');
+            }
+        }
+
+        function abrirModalCadastrar() { document.getElementById('modalCadastrar').classList.remove('hidden'); }
+        function abrirModalVender() { document.getElementById('modalVender').classList.remove('hidden'); }
+        function fecharModais() {
+            document.getElementById('modalCadastrar').classList.add('hidden');
+            document.getElementById('modalVender').classList.add('hidden');
+        }
+
+        async function verificarEstoque() {
+            try {
+                const response = await fetch('/api/aparelhos');
+                const aparelhos = await response.json();
+                const area = document.getElementById('resultadoArea');
+                const container = document.getElementById('tabelaEstoque');
+                area.classList.remove('hidden');
+
+                if (aparelhos.length === 0) {
+                    container.innerHTML = `<div style="padding: 15px; text-align: center; color: #94a3b8; font-size: 13px;">Nenhum aparelho cadastrado no estoque.</div>`;
+                    return;
+                }
+
+                let html = `<table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Memória</th>
+                            <th>Qtd</th>
+                            <th>IMEI</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+                
+                aparelhos.forEach((item, index) => {
+                    html += `<tr>
+                        <td>${index + 1}</td>
+                        <td>${item.marca}</td>
+                        <td>${item.modelo}</td>
+                        <td>${item.memoria}</td>
+                        <td><strong style="color: #60a5fa;">${item.quantidade} un.</strong></td>
+                        <td>${item.imei}</td>
+                        <td><span class="badge-status">Em Estoque</span></td>
+                    </tr>`;
+                });
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            } catch (err) {
+                alert('Erro ao carregar estoque.');
+            }
+        }
+
+        async function salvarAparelho() {
+            const marca = document.getElementById('cadMarca').value;
+            const modelo = document.getElementById('cadModelo').value;
+            const memoria = document.getElementById('cadMemoria').value;
+            const imei = document.getElementById('cadImei').value;
+
+            if (!marca || !modelo || !memoria || !imei) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/aparelhos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ marca, modelo, memoria, imei })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+
+                if (response.ok && data.success) {
+                    fecharModais();
+                    document.getElementById('cadMarca').value = '';
+                    document.getElementById('cadModelo').value = '';
+                    document.getElementById('cadMemoria').value = '';
+                    document.getElementById('cadImei').value = '';
+                    verificarEstoque(); // Atualiza a tabela na hora
+                }
+            } catch (err) {
+                alert('Erro ao comunicar com o servidor.');
+            }
+        }
+
+        async function confirmarVenda() {
+            const imei = document.getElementById('vendaImei').value;
+            if (!imei) {
+                alert('Digite o IMEI!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/aparelhos/${imei}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                alert(data.message);
+
+                if (response.ok && data.success) {
+                    fecharModais();
+                    document.getElementById('vendaImei').value = '';
+                    verificarEstoque();
+                }
+            } catch (err) {
+                alert('Erro ao dar baixa no aparelho.');
+            }
+        }
+    </script>
+</body>
+</html>

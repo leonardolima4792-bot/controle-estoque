@@ -7,7 +7,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { 
-            background: radial-gradient(circle at center, #0B132B 0%, #030712 100%); 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); 
             color: #f8fafc; 
             min-height: 100vh; 
             display: flex; 
@@ -17,208 +17,135 @@
             padding: 20px; 
         }
         .container { 
-            background: rgba(11, 19, 43, 0.85); 
-            border: 1px solid rgba(56, 189, 248, 0.25); 
+            background: rgba(15, 23, 42, 0.9); 
+            border: 1px solid rgba(56, 189, 248, 0.3); 
             border-radius: 20px; 
-            padding: 30px; 
+            padding: 35px; 
             width: 100%; 
-            max-width: 480px; 
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(56, 189, 248, 0.08); 
-            backdrop-filter: blur(10px); 
+            max-width: 520px; 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.1); 
+            backdrop-filter: blur(12px); 
         }
         .logo-area { text-align: center; margin-bottom: 25px; }
-        .shield-icon { 
-            width: 70px; height: 70px; background: linear-gradient(135deg, #1d4ed8, #38bdf8); 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            margin: 0 auto 15px auto; font-size: 32px; box-shadow: 0 0 20px rgba(56,189,248,0.4); 
-        }
-        h1 { color: #fff; font-size: 24px; font-weight: bold; letter-spacing: 0.5px; }
-        h1 span { color: #38bdf8; }
-        .subtitle { color: #94a3b8; font-size: 11px; margin-top: 5px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .logo-icon { font-size: 45px; margin-bottom: 10px; }
+        h1 { color: #38bdf8; font-size: 26px; font-weight: bold; letter-spacing: 0.5px; }
+        h1 span { color: #fff; }
+        .subtitle { color: #94a3b8; font-size: 13px; margin-top: 5px; }
         
-        /* Inputs com ícones */
-        .input-group { position: relative; margin-bottom: 15px; }
-        .input-group input { 
-            width: 100%; background: #070d1d; color: #fff; border: 1px solid #1e293b; 
-            padding: 14px 14px 14px 45px; border-radius: 12px; outline: none; font-size: 14px; 
-            transition: border-color 0.2s; 
-        }
-        .input-group input:focus { border-color: #38bdf8; }
-        .input-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 16px; }
-        .toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; }
-
-        /* Botões do Menu Original */
+        /* Botões do Menu idênticos à tua imagem original */
         .btn-menu { 
-            display: flex; align-items: center; justify-content: space-between; 
-            width: 100%; padding: 16px 20px; margin-bottom: 12px; border-radius: 14px; 
-            border: none; font-weight: bold; cursor: pointer; color: white; 
-            transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            padding: 18px 22px; 
+            margin-bottom: 14px; 
+            border-radius: 12px; 
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+            color: white; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
         }
-        .btn-menu:hover { transform: translateY(-2px); }
+        .btn-menu:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3); }
         
-        .btn-blue { background: linear-gradient(135deg, #1d4ed8, #2563eb); border: 1px solid rgba(56,189,248,0.3); }
-        .btn-green { background: linear-gradient(135deg, #0f766e, #0d9488); border: 1px solid rgba(45,212,191,0.3); }
-        .btn-orange { background: linear-gradient(135deg, #b45309, #d97706); border: 1px solid rgba(251,191,36,0.3); }
-        .btn-fast { background: linear-gradient(135deg, #dc2626, #ea580c); border: 1px solid rgba(248,113,113,0.3); }
-        .btn-red { background: linear-gradient(135deg, #991b1b, #dc2626); border: 1px solid rgba(248,113,113,0.3); }
+        .btn-1 { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .btn-2 { background: linear-gradient(135deg, #0d9488, #0f766e); }
+        .btn-4 { background: linear-gradient(135deg, #d97706, #b45309); }
+        .btn-fast { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        .btn-logout { background: linear-gradient(135deg, #dc2626, #991b1b); }
+        
+        .status-footer { text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
 
-        /* Rodapé de Segurança Estilo Imagem */
-        .footer-badges { 
-            display: flex; justify-content: space-around; margin-top: 25px; padding-top: 15px; 
-            border-top: 1px solid rgba(255,255,255,0.06); font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; 
+        /* Estilo de Inputs e Modais */
+        .login-box input, .modal-content input, .modal-content select, .modal-content textarea { 
+            width: 100%; background: #020617; color: #fff; border: 1px solid #334155; padding: 14px; border-radius: 10px; margin-bottom: 15px; outline: none; font-size: 14px; 
         }
-        .badge-item { text-align: center; }
-        .badge-item div { font-size: 14px; margin-bottom: 2px; }
-
-        .status-footer { text-align: center; margin-top: 15px; font-size: 12px; color: #64748b; }
-
-        /* Tabela de Aparelhos Cadastrados */
-        .table-box { margin-top: 20px; background: rgba(7, 13, 29, 0.7); border-radius: 12px; padding: 15px; border: 1px solid #1e293b; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
-        th { color: #64748b; padding-bottom: 8px; font-weight: 600; border-bottom: 1px solid #1e293b; }
-        td { padding: 8px 0; color: #cbd5e1; border-bottom: 1px solid rgba(255,255,255,0.02); }
-
-        /* Modais */
+        .login-box input:focus, .modal-content input:focus { border-color: #38bdf8; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-        .modal-content { background: #0f172a; padding: 25px; border-radius: 16px; width: 100%; max-width: 500px; color: #fff; border: 1px solid rgba(56,189,248,0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
-        .modal-content input, .modal-content select { width: 100%; background: #070d1d; color: #fff; border: 1px solid #334155; padding: 12px; border-radius: 8px; margin-top: 5px; margin-bottom: 15px; outline: none; }
-        .modal-content label { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+        .modal-content { background: #0f172a; padding: 30px; border-radius: 16px; width: 100%; max-width: 550px; color: #fff; border: 1px solid rgba(56,189,248,0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
+        .modal-content label { font-size: 13px; color: #94a3b8; font-weight: bold; display: block; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <!-- TELA DE LOGIN -->
+    <!-- TELA DE LOGIN (Exatamente igual à tua foto) -->
     <div class="container" id="telaLogin">
         <div class="logo-area">
-            <div class="shield-icon">🔒</div>
+            <div class="logo-icon">🛡️</div>
             <h1>VERY+ <span>SECURITY</span></h1>
-            <div class="subtitle">Mais segurança para o seu dia a dia</div>
+            <div class="subtitle">MAIS SEGURANÇA PARA O SEU DIA A DIA</div>
         </div>
-        
-        <div class="input-group">
-            <span class="input-icon">👤</span>
-            <input type="text" id="loginUsuario" placeholder="Usuário (admin)">
+        <div class="login-box">
+            <input type="text" id="loginUsuario" placeholder="Usuário (ex: admin)">
+            <input type="password" id="loginSenha" placeholder="Senha (ex: 1234)">
+            <button onclick="fazerLogin()" class="btn-menu btn-1" style="justify-content: center; font-size: 16px;">Entrar</button>
         </div>
-        
-        <div class="input-group">
-            <span class="input-icon">🔒</span>
-            <input type="password" id="loginSenha" placeholder="Senha (1234)">
-            <span class="toggle-password" onclick="toggleSenha()">👁️</span>
-        </div>
-
-        <button onclick="fazerLogin()" class="btn-menu btn-blue" style="justify-content: center; font-size: 15px; margin-top: 5px;">
-            <span>➔ Entrar</span>
-        </button>
-
-        <div style="text-align: center; margin-top: 15px; font-size: 11px; color: #475569; letter-spacing: 1px;">
-            🛡️ ACESSO RESTRITO
-        </div>
-
-        <div class="footer-badges">
-            <div class="badge-item"><div>🛡️</div>Segurança</div>
-            <div class="badge-item"><div>⚡</div>Agilidade</div>
-            <div class="badge-item"><div>🔒</div>Controle</div>
-            <div class="badge-item"><div>✅</div>Confiança</div>
-        </div>
+        <div class="status-footer">ACESSO RESTRITO • SEGURANÇA E CONTROLE</div>
     </div>
 
-    <!-- PAINEL PRINCIPAL (TELA DE INÍCIO) -->
-    <div class="container" id="painelPrincipal" style="display: none; max-width: 520px;">
+    <!-- PAINEL PRINCIPAL (Interface original com os botões perfeitos) -->
+    <div class="container" id="painelPrincipal" style="display: none;">
         <div class="logo-area" style="margin-bottom: 20px;">
-            <div class="shield-icon" style="width: 55px; height: 55px; font-size: 24px;">🛡️</div>
-            <h1 style="font-size: 20px;">Controle de <span>Estoque</span></h1>
-            <div class="subtitle" style="margin-top: 3px;">Gerencie os aparelhos da sua loja de forma simples e segura.</div>
+            <div class="logo-icon" style="font-size: 35px;">🛡️</div>
+            <h1 style="font-size: 24px;">VERY+ <span>SECURITY</span></h1>
+            <div class="subtitle">Gerencie os aparelhos da sua loja de forma simples e segura.</div>
         </div>
 
-        <button onclick="abrirModal('modalCadastrar')" class="btn-menu btn-blue">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 20px;">📱</span>
-                <div style="text-align: left;">
-                    <div style="font-size: 14px;">1 - Cadastrar Aparelho</div>
-                    <div style="font-size: 11px; opacity: 0.7; font-weight: normal;">Registre um novo aparelho no sistema.</div>
-                </div>
+        <button onclick="abrirModal('modalCadastrar')" class="btn-menu btn-1">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">1 - Cadastrar Aparelho</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Registre um novo aparelho no sistema.</div>
             </div>
             <span>›</span>
         </button>
 
-        <button onclick="carregarEstoque()" class="btn-menu btn-green">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 20px;">🔍</span>
-                <div style="text-align: left;">
-                    <div style="font-size: 14px;">2 - Verificar Aparelhos em Estoque</div>
-                    <div style="font-size: 11px; opacity: 0.7; font-weight: normal;">Confira os aparelhos cadastrados.</div>
-                </div>
+        <button onclick="abrirEstoque()" class="btn-menu btn-2">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">2 - Verificar Aparelhos em Estoque</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Confira os aparelhos cadastrados.</div>
             </div>
             <span>›</span>
         </button>
 
-        <button onclick="abrirModal('modalVenda')" class="btn-menu btn-orange">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 20px;">📄</span>
-                <div style="text-align: left;">
-                    <div style="font-size: 14px;">4 - Registrar Venda (Baixa)</div>
-                    <div style="font-size: 11px; opacity: 0.7; font-weight: normal;">Registre a venda e atualize o estoque.</div>
-                </div>
+        <button onclick="abrirModal('modalVenda')" class="btn-menu btn-4">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">4 - Registrar Venda (Baixa)</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Registre a venda e atualize o estoque.</div>
             </div>
             <span>›</span>
         </button>
 
         <!-- PONTO 5: EXTREMELY FAST -->
         <button onclick="abrirModalExtremelyFast()" class="btn-menu btn-fast">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 20px;">⚡</span>
-                <div style="text-align: left;">
-                    <div style="font-size: 14px;">5 - ⚡ EXTREMELY FAST (Auditoria)</div>
-                    <div style="font-size: 11px; opacity: 0.7; font-weight: normal;">Conferência relâmpago por múltiplos IMEIs.</div>
-                </div>
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">5 - ⚡ EXTREMELY FAST (Auditoria)</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Conferência relâmpago por múltiplos IMEIs.</div>
             </div>
             <span>›</span>
         </button>
 
-        <button onclick="fazerLogout()" class="btn-menu btn-red">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 20px;">🚪</span>
-                <div style="text-align: left;">
-                    <div style="font-size: 14px;">Sair / Deslogar</div>
-                    <div style="font-size: 11px; opacity: 0.7; font-weight: normal;">Encerrar sua sessão com segurança.</div>
-                </div>
+        <button onclick="fazerLogout()" class="btn-menu btn-logout">
+            <div style="text-align: left;">
+                <div style="font-size: 15px;">Sair / Deslogar</div>
+                <div style="font-size: 11px; opacity: 0.8; font-weight: normal;">Encerrar sua sessão com segurança.</div>
             </div>
             <span>›</span>
         </button>
 
-        <div class="status-footer" style="border-top: 1px solid rgba(255,255,255,0.06); margin-top: 15px; padding-top: 12px;">
-            ⏳ Aguardando ação...
-        </div>
-
-        <!-- Tabela de Aparelhos Cadastrados Recentes -->
-        <div class="table-box">
-            <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #38bdf8;">Aparelhos Cadastrados</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>IMEI</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="tabelaAparelhosRecentes">
-                    <tr><td colspan="5" style="text-align: center; color: #64748b; padding: 10px;">Carregando estoque...</td></tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="status-footer">⏳ Aguardando ação...</div>
     </div>
 
     <!-- MODAL CADASTRAR -->
     <div id="modalCadastrar" class="modal">
         <div class="modal-content">
-            <h2 style="color: #38bdf8; margin-bottom: 15px; font-size: 18px;">📱 Cadastrar Aparelho</h2>
+            <h2 style="color: #38bdf8; margin-bottom: 15px;">Cadastrar Aparelho</h2>
             <label>Marca:</label>
             <input type="text" id="cadMarca" placeholder="Ex: Samsung">
             <label>Modelo:</label>
             <input type="text" id="cadModelo" placeholder="Ex: Galaxy S23">
-            <label>Memória:</label>
+            <label>Memória / Capacidade:</label>
             <select id="cadMemoria">
                 <option value="64GB">64GB</option>
                 <option value="128GB" selected>128GB</option>
@@ -229,40 +156,23 @@
             <label>IMEI:</label>
             <input type="text" id="cadImei" placeholder="Digite o IMEI único">
             <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button onclick="cadastrarAparelho()" class="btn-menu btn-blue" style="justify-content: center; padding: 12px;">Registar</button>
-                <button onclick="fecharModal('modalCadastrar')" class="btn-menu btn-red" style="justify-content: center; padding: 12px;">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL VENDA (BAIXA UNITÁRIA) -->
-    <div id="modalVenda" class="modal">
-        <div class="modal-content">
-            <h2 style="color: #f59e0b; margin-bottom: 15px; font-size: 18px;">📄 Registrar Venda (Baixa por IMEI)</h2>
-            <label>IMEI do Aparelho:</label>
-            <input type="text" id="vendaImei" placeholder="Digite o IMEI exato para dar baixa">
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button onclick="registrarVenda()" class="btn-menu btn-orange" style="justify-content: center; padding: 12px;">Confirmar Baixa</button>
-                <button onclick="fecharModal('modalVenda')" class="btn-menu btn-red" style="justify-content: center; padding: 12px;">Cancelar</button>
+                <button onclick="cadastrarAparelho()" style="background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer;">Registar</button>
+                <button onclick="fecharModal('modalCadastrar')" style="background: #475569; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Cancelar</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL EXTREMELY FAST (PONTO 5) -->
     <div id="modalExtremelyFast" class="modal">
-        <div class="modal-content" style="max-width: 600px;">
-            <h2 style="color: #ef4444; margin-bottom: 8px; font-size: 18px;">⚡ EXTREMELY FAST - Auditoria Relâmpago</h2>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">Cole ou digite os IMEIs (um por linha ou separados por espaço/vírgula):</p>
-            
-            <textarea id="inputImeisFast" rows="5" placeholder="Ex: 123456789012345&#10;987654321098765" style="width: 100%; background: #070d1d; color: #fff; border: 1px solid #334155; padding: 12px; border-radius: 8px; font-family: monospace; outline: none; margin-bottom: 12px;"></textarea>
-            
+        <div class="modal-content">
+            <h2 style="color: #ff4b2b; margin-bottom: 8px;">⚡ EXTREMELY FAST - Auditoria Relâmpago</h2>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">Cole ou digite os IMEIs (um por linha ou separados por espaço):</p>
+            <textarea id="inputImeisFast" rows="6" placeholder="Ex: 123456789012345&#10;987654321098765"></textarea>
             <div style="display: flex; gap: 10px;">
-                <button onclick="executarAuditoriaFast()" class="btn-menu btn-green" style="justify-content: center; padding: 12px; flex: 1;">Verificar / OK</button>
-                <button onclick="fecharModalExtremelyFast()" class="btn-menu btn-red" style="justify-content: center; padding: 12px; flex: 1;">Fechar</button>
+                <button onclick="executarAuditoriaFast()" style="background: #22c55e; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1;">Verificar / OK</button>
+                <button onclick="fecharModalExtremelyFast()" style="background: #475569; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Fechar</button>
             </div>
-
-            <!-- Resultados Coloridos -->
-            <div id="resultadoExtremelyFast" style="margin-top: 15px; max-height: 220px; overflow-y: auto; display: none; border-top: 1px solid #1e293b; padding-top: 12px;"></div>
+            <div id="resultadoExtremelyFast" style="margin-top: 20px; max-height: 220px; overflow-y: auto; display: none; border-top: 1px solid #334155; padding-top: 15px;"></div>
         </div>
     </div>
 
@@ -273,15 +183,9 @@
             if (u === 'admin' && s === '1234') {
                 document.getElementById('telaLogin').style.display = 'none';
                 document.getElementById('painelPrincipal').style.display = 'block';
-                carregarEstoque();
             } else {
                 alert('Usuário ou senha incorretos! Use admin / 1234');
             }
-        }
-
-        function toggleSenha() {
-            const input = document.getElementById('loginSenha');
-            input.type = input.type === 'password' ? 'text' : 'password';
         }
 
         function fazerLogout() {
@@ -301,29 +205,6 @@
         }
         function fecharModalExtremelyFast() { document.getElementById('modalExtremelyFast').style.display = 'none'; }
 
-        async function carregarEstoque() {
-            try {
-                const res = await fetch('/api/aparelhos');
-                const data = await res.json();
-                const tbody = document.getElementById('tabelaAparelhosRecentes');
-                if (!data || data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #64748b; padding: 10px;">Nenhum aparelho cadastrado.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = data.map((item, index) => `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.marca}</td>
-                        <td>${item.modelo} (${item.memoria})</td>
-                        <td style="font-family: monospace;">${item.imei || 'N/A'}</td>
-                        <td><span style="background: rgba(34,197,94,0.15); color: #22c55e; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">Cadastrado (${item.quantidade || 1})</span></td>
-                    </tr>
-                `).join('');
-            } catch (e) {
-                console.error('Erro ao carregar estoque');
-            }
-        }
-
         async function cadastrarAparelho() {
             const marca = document.getElementById('cadMarca').value.trim();
             const modelo = document.getElementById('cadModelo').value.trim();
@@ -341,33 +222,65 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ marca, modelo, memoria, imei })
                 });
-                const result = await res.json();
+                const data = await res.json();
                 if (res.ok) {
-                    alert('Aparelho cadastrado com sucesso!');
+                    alert('Aparelho registado com sucesso!');
                     fecharModal('modalCadastrar');
                     document.getElementById('cadMarca').value = '';
                     document.getElementById('cadModelo').value = '';
                     document.getElementById('cadImei').value = '';
-                    carregarEstoque();
                 } else {
-                    alert(result.error || 'Erro ao cadastrar aparelho.');
+                    alert(data.error || 'Erro ao registar aparelho.');
                 }
-            } catch (e) {
-                alert('Erro de conexão ao cadastrar.');
+            } catch (err) {
+                alert('Erro de conexão com o servidor.');
             }
         }
 
-        async function registrarVenda() {
-            const imei = document.getElementById('vendaImei').value.trim();
-            if (!imei) {
-                alert('Digite o IMEI para dar baixa!');
+        function abrirEstoque() {
+            window.location.href = '/estoque.html'; // Redireciona para a página de estoque completa
+        }
+
+        async function executarAuditoriaFast() {
+            const texto = document.getElementById('inputImeisFast').value;
+            const imeis = texto.split(/[\n,\s]+/).map(i => i.trim()).filter(i => i.length > 0);
+
+            if (imeis.length === 0) {
+                alert('Por favor, insira pelo menos um IMEI.');
                 return;
             }
+
             try {
-                const res = await fetch('/api/venda', {
+                const response = await fetch('/api/auditoria', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ imei })
+                    body: JSON.stringify({ imeis })
                 });
-                const result = await res.json();
-                if (res
+                const data = await response.json();
+
+                const resDiv = document.getElementById('resultadoExtremelyFast');
+                resDiv.style.display = 'block';
+                resDiv.innerHTML = `
+                    <div style="background: #020617; padding: 12px; border-radius: 8px; border: 1px solid #334155;">
+                        <h3 style="margin-bottom: 10px; color: #38bdf8; font-size: 14px;">📊 Relatório da Auditoria:</h3>
+                        <div style="margin-bottom: 8px; background: rgba(34, 197, 94, 0.1); padding: 6px; border-left: 3px solid #22c55e; border-radius: 4px;">
+                            <strong style="color: #22c55e;">🟢 OK (${data.ok.length}):</strong>
+                            <div style="font-size: 11px; color: #cbd5e1;">${data.ok.length > 0 ? data.ok.map(i => `${i.marca} ${i.modelo} (${i.memoria})`).join(', ') : 'Nenhum'}</div>
+                        </div>
+                        <div style="margin-bottom: 8px; background: rgba(239, 68, 68, 0.1); padding: 6px; border-left: 3px solid #ef4444; border-radius: 4px;">
+                            <strong style="color: #ef4444;">🔴 Faltantes (${data.faltantes.length}):</strong>
+                            <div style="font-size: 11px; color: #cbd5e1;">${data.faltantes.length > 0 ? data.faltantes.map(i => `${i.marca} ${i.modelo} (${i.memoria})`).join(', ') : 'Nenhum'}</div>
+                        </div>
+                        <div style="background: rgba(234, 179, 8, 0.1); padding: 6px; border-left: 3px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">🟡 Inválidos (${data.invalidos.length}):</strong>
+                            <div style="font-size: 11px; color: #cbd5e1;">${data.invalidos.length > 0 ? data.invalidos.join(', ') : 'Nenhum'}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                alert('Erro ao conectar com o servidor para auditoria.');
+            }
+        }
+    </script>
+</body>
+</html>
